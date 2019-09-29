@@ -4,8 +4,8 @@ const restart = document.getElementById('restart')
 canvas.id = "canvas"
 document.body.insertBefore(canvas, restart)
 const ctx = canvas.getContext('2d')
-const width = canvas.width = 800
-const height = canvas.height = 700
+const width = canvas.width = 1000
+const height = canvas.height = 800
 canvas.style.border = '30px solid #a7cdff'
 canvas.style.borderRadius = '20px'
 
@@ -28,18 +28,22 @@ let lostGame
 
 let paddle = {
   moveRight: () => {
+    if (paddle.farRight < width) {
     paddle.farLeft += 10
     paddle.left += 10
     paddle.center += 10
     paddle.right += 10
     paddle.farRight += 10
+    }
   },
   moveLeft: () => {
+    if (paddle.farLeft > 0) {
     paddle.farLeft -= 10
     paddle.left -= 10
     paddle.center -= 10
     paddle.right -= 10
     paddle.farRight -= 10
+    }
   },
   direction: undefined,
   farLeft: 20,
@@ -81,7 +85,7 @@ const drawBlock = (x, y, w, h) => {
 
 // Store blocks in 2D array -> [x-coord, y-coord, width, height]
 let blocks = [...Array(4)].map(e => [...Array(10)])
-blocks = blocks.map((row, j)=>row.map((v, i) => [(width / 10) * i, 40 * j, width/10, 40]))
+blocks = blocks.map((row, i)=>row.map((v, j) => [(width / 10) * j, 40 * i, width/10, 40]))
 
 const draw = () => {
 
@@ -116,7 +120,6 @@ const draw = () => {
     }
 
     // Check if ball has hit something
-    if (ball.position.y >= height) lostGame = true
     if (ball.position.x >= width - 13) ball.direction.x = -1
     if (ball.position.x <= 20) ball.direction.x = 1
     if (ball.position.y <= 20) ball.direction.y = 1
@@ -144,4 +147,5 @@ requestAnimationFrame(draw)
 restart.addEventListener("click", () => location.reload())
 document.addEventListener("keydown", keydown)
 document.addEventListener("keyup", keyup)
+document.addEventListener("mousemove",  () => paddle.center)
 
