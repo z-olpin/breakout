@@ -15,7 +15,7 @@ let ball = {
     y: -1
   },
   velocity: {
-    x:-6,
+    x:-11,
     y: -9
   },
   position: {
